@@ -225,9 +225,9 @@ void CInputDevicePort::InitializeDirectInput()
 
 	if( dinput_dll_.IsLoaded() == false ) {
 #ifdef _DEBUG
-		dinput_dll_.Load( "dinput8d.dll" );
+		dinput_dll_.Load( _T("dinput8d.dll") );
 #else
-		dinput_dll_.Load( "dinput8.dll" );
+		dinput_dll_.Load( _T("dinput8.dll") );
 #endif
 	}
 

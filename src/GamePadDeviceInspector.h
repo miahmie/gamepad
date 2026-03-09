@@ -47,6 +47,12 @@ class CGamePadDeviceInspector
 	DIDEVICEINSTANCE		device_instance_info_;
 
 public:
+#ifdef UNICODE
+	typedef std::wstring tstring;
+#else
+	typedef std::string tstring;
+#endif
+
 	CGamePadDeviceInspector();
 	bool GetInfomation( IDirectInputDevice8* device );
 
@@ -71,9 +77,9 @@ public:
 	//! 製品の一意な識別子。この識別子は、デバイス メーカーが設定する。 
 	GUID GetProductGuid() const { return device_instance_info_.guidProduct; }
 	//! インスタンスの登録名。たとえば、"Joystick 1"。 
-	void GetInstanceName( std::string& name ) const { name = std::string(device_instance_info_.tszInstanceName); }
+	void GetInstanceName( tstring& name ) const { name = tstring(device_instance_info_.tszInstanceName); }
 	//! 製品の登録名。 
-	void GetProductName( std::string& name ) const { name = std::string(device_instance_info_.tszProductName); }
+	void GetProductName( tstring& name ) const { name = tstring(device_instance_info_.tszProductName); }
 	//! フォース フィードバックに使われるドライバの一意な識別子。ドライバのメーカーがこの識別子を設定する。 
 	GUID GetForceFeedbackDriverGuid() const { return device_instance_info_.guidFFDriver; }
 	//! デバイスが HID (Human Interface Device) デバイスである場合、このメンバには、HID 使用ページ コードが含まれる。 

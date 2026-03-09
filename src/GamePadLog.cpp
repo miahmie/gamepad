@@ -44,6 +44,8 @@
 #define MAX_ERROR_TEXT_LEN 160
 #endif // MAX_ERROR_TEXT_LEN
 
+#include <tchar.h>
+
 namespace gamepad {
 
 struct quartz
@@ -74,7 +76,7 @@ bool quartz::Initialize()
 bool quartz::CheckLoading()
 {
 	if( dll_.IsLoaded() == false ) {
-		dll_.Load( "quartz.dll" );
+		dll_.Load( _T("quartz.dll") );
 	}
 	return dll_.IsLoaded();
 }

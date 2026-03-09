@@ -29,6 +29,7 @@
 補償; または、業務の中断に対する補償を含め)責任をいっさい負いません。
 
 *****************************************************************************/
+#define _USE_MATH_DEFINES 
 
 #include "GamePadDirectInputDevice.h"
 #include "GamePadDirectInputMappingDB.h"
@@ -40,7 +41,6 @@
 #include <vector>
 #include <windows.h>
 
-#define _USE_MATH_DEFINES 
 #include <cmath> 
 
 namespace gamepad {
@@ -65,7 +65,12 @@ bool CDirectInputDevice::EnumObjectsCallback( const DIDEVICEOBJECTINSTANCE* pdid
 
 	// オブジェクト名書き出し
 	std::wstring	objName;
-	if( EncodeToUTF16( objName, std::string(pdidoi->tszName) ) ) {
+#ifdef UNICODE
+	objName = std::wstring(pdidoi->tszName);
+#else
+	if( EncodeToUTF16( objName, std::string(pdidoi->tszName) ) )
+#endif
+	{
 		Log( (std::wstring(L"[ ") + objName + std::wstring(L" ]")).c_str() );
 	}
 
@@ -407,9 +412,13 @@ bool CDirectInputDevice::InitializeDeviceDetail()
 
 	instance_guid_ = inspector_.GetInstanceGuid();
 
+#ifdef UNICODE
+	inspector_.GetProductName( name_ );
+#else
 	std::string name;
 	inspector_.GetProductName( name );
 	EncodeToUTF16( name_, name );
+#endif
 
 	std::wstringstream stream;
 	stream << L"Game Pad Device Name : " << name_;
